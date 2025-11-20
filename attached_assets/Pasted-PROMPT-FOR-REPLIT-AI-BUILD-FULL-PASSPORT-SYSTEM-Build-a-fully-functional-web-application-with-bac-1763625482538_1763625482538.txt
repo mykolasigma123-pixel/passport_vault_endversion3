@@ -1,0 +1,121 @@
+PROMPT FOR REPLIT AI — BUILD FULL PASSPORT SYSTEM
+
+Build a fully functional web application with backend, database and frontend. Requirements:
+
+GENERAL
+
+Minimalistic, light, responsive design.
+
+Default language: Russian.
+
+Use Node.js + Express for backend.
+
+Use SQLite or Prisma + SQLite for database (free on Replit).
+
+Use EJS or HTML templates for frontend.
+
+Host on Replit automatically.
+
+AUTH SYSTEM
+
+Main admin account created automatically.
+
+Admin logs in using login + password.
+
+Main admin can create sub-admin accounts.
+
+Main admin can deactivate any admin at any time.
+
+GROUP SYSTEM
+
+Start with 1 group (editable name).
+
+Admin can create more groups.
+
+Admin can move people between groups.
+
+On admin dashboard: show all groups for sorting.
+
+PERSON PAGE ("PASSPORT")
+
+Each person has:
+
+Profile photo upload
+
+Full name
+
+Birth date
+
+Passport number
+
+Status (Green check when active, red cross when expired)
+
+Expiration date
+
+Notes/resume field (text, editable only by admins)
+
+Passport pages must:
+
+Have a public URL with a long random ID
+Example: /p/83jf92KD02kdk20
+
+Not require login to view
+
+Have a QR code leading to this page
+
+AUTOMATIC EXPIRATION
+
+When expiration date passes → status changes to inactive
+
+Text shows “Паспорт неактивен”
+
+Send email notification to main admin
+
+Admin can reactivate by setting new expiration date
+
+ADMIN PANEL
+
+Admin panel must include:
+
+Create/edit/delete people
+
+Create/edit/delete groups
+
+Move people between groups
+
+Passport list with sorting
+
+Inactive passports highlighted in red
+
+Change status manually
+
+Upload/change photo
+
+Edit notes
+
+View logs of changes (who / what / when)
+
+LOGGING SYSTEM
+
+Log every change:
+
+What changed
+
+Who changed it
+
+Timestamp
+Send critical updates to admin email.
+
+QR CODES
+
+Generate QR code for each passport
+
+QR code links directly to the public passport page
+
+FINAL
+
+Make the entire system fully functional on free Replit hosting.
+Provide all code, database schema, routes, templates, CSS, and setup instructions.
+After building, run the project so it is live on projectname.repl.co.
+
+END OF PROMPT
