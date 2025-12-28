@@ -234,8 +234,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const groups = await storage.getAllGroups();
       res.json(groups);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error fetching groups:", error);
+      if (error.message?.includes("endpoint has been disabled")) {
+        return res.status(503).json({ message: "База данных временно отключена. Пожалуйста, активируйте её в консоли Neon." });
+      }
       res.status(500).json({ message: "Failed to fetch groups" });
     }
   });
@@ -317,8 +320,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const people = await storage.getAllPeople();
       res.json(people);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error fetching people:", error);
+      if (error.message?.includes("endpoint has been disabled")) {
+        return res.status(503).json({ message: "База данных временно отключена. Пожалуйста, активируйте её в консоли Neon." });
+      }
       res.status(500).json({ message: "Failed to fetch people" });
     }
   });
