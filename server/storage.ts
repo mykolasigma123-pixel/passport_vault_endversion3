@@ -110,12 +110,24 @@ export class DatabaseStorage implements IStorage {
 
   // Group operations
   async getAllGroups(): Promise<Group[]> {
-    return await db.select().from(groups).orderBy(groups.name);
+    try {
+      return await db.select().from(groups).orderBy(groups.name);
+    } catch (error: any) {
+      if (error.message?.includes("endpoint has been disabled")) {
+        return [{ id: 1, name: "Демо-группа (База отключена)", createdBy: "admin_user", createdAt: new Date(), updatedAt: new Date() }];
+      }
+      throw error;
+    }
   }
 
   async getGroup(id: number): Promise<Group | undefined> {
-    const [group] = await db.select().from(groups).where(eq(groups.id, id));
-    return group;
+    try {
+      const [group] = await db.select().from(groups).where(eq(groups.id, id));
+      return group;
+    } catch (error: any) {
+      if (error.message?.includes("endpoint has been disabled")) return undefined;
+      throw error;
+    }
   }
 
   async createGroup(groupData: InsertGroup): Promise<Group> {
@@ -138,7 +150,14 @@ export class DatabaseStorage implements IStorage {
 
   // Person/Passport operations
   async getAllPeople(): Promise<Person[]> {
-    return await db.select().from(people).orderBy(desc(people.createdAt));
+    try {
+      return await db.select().from(people).orderBy(desc(people.createdAt));
+    } catch (error: any) {
+      if (error.message?.includes("endpoint has been disabled")) {
+        return [];
+      }
+      throw error;
+    }
   }
 
   async getPerson(id: number): Promise<Person | undefined> {

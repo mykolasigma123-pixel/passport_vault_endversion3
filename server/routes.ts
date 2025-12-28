@@ -245,7 +245,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/groups", isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id || req.user.claims.sub;
       const groupData = {
         name: req.body.name,
         createdBy: userId,
@@ -264,13 +264,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(group);
     } catch (error: any) {
       console.error("Error creating group:", error);
+      if (error.message?.includes("endpoint has been disabled")) {
+        return res.status(503).json({ message: "База данных временно отключена. Пожалуйста, активируйте её в консоли Neon." });
+      }
       res.status(400).json({ message: error.message || "Failed to create group" });
     }
   });
 
   app.put("/api/groups/:id", isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id || req.user.claims.sub;
       const { name } = req.body;
 
       const group = await storage.updateGroup(Number(req.params.id), name);
@@ -283,15 +286,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
       );
 
       res.json(group);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error updating group:", error);
+      if (error.message?.includes("endpoint has been disabled")) {
+        return res.status(503).json({ message: "База данных временно отключена. Пожалуйста, активируйте её в консоли Neon." });
+      }
       res.status(500).json({ message: "Failed to update group" });
     }
   });
 
   app.delete("/api/groups/:id", isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id || req.user.claims.sub;
       const groupId = Number(req.params.id);
       const group = await storage.getGroup(groupId);
 
@@ -309,8 +315,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       );
 
       res.json({ success: true });
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error deleting group:", error);
+      if (error.message?.includes("endpoint has been disabled")) {
+        return res.status(503).json({ message: "База данных временно отключена. Пожалуйста, активируйте её в консоли Neon." });
+      }
       res.status(500).json({ message: "Failed to delete group" });
     }
   });
